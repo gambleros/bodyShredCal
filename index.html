@@ -1,0 +1,301 @@
+<html>
+  <head>
+    <title>Todo App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:800' rel='stylesheet' type='text/css'>
+    <style>
+		*{
+      box-sizing: border-box;
+    }
+    body{
+      font-family: 'Open Sans';
+      line-height: 1.618em;
+    }
+    h1{
+      text-align: center;
+    }
+    .checked.greenC{
+			background: rgba(0,250,0,0.2);
+		}
+    .checked.redC{
+      background: rgba(250,0,0,0.2);
+    }
+    .checked{
+      transition: all 0.35s;
+    }
+		.not-checked{
+			background: #eee;
+		}
+    .warning::after{
+      background: #E83A3A;
+    }
+    .topRigth{
+      position: fixed;
+      top: 0;
+      right: 0;
+      padding: 1.3em;
+      background: transparent;
+      transition: all 0.35s;
+    }
+    .topRigth:hover{
+      background: rgba(200,200,200,0.5);
+      transition: all 0.35s;
+    }
+    ul{
+      margin: 0;
+      padding: 0;
+    }
+    li{
+      list-style-type: none;
+      display: block;
+      width: 100%;
+      padding: 1.357em;
+      background: #eee;
+      border-bottom: 0.325em solid #EDB04E;
+      text-align: center;
+      transition: all 0.35s;
+    }
+    li p{
+      font-weight: 800;
+      font-style: 2em;
+    }
+    input[type='radio']{
+      display: none;
+    }
+    input[type='radio']:checked + label{
+      background: rgba(0,0,0,0.5);
+    }
+    .defStyle label{
+      display: inline-block;
+      padding: 0.85em 0.75em;
+      background: #EDB04E;
+      color: #fff;
+      border-right: 0.25em solid #eee;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .defStyle label:last-child{
+      border-right: none;
+    }
+    .defStyle label::after{
+      position: absolute;
+      content: '';
+      top: -100%;
+      bottom: 100%;
+      left: 0;
+      right: 0;
+      background: rgb(0,240,0);
+      z-index: -1;
+      transition: all 0.35s;
+      display: block;
+    }
+    .defStyle label:hover{
+      color: #000;
+    }
+    .defStyle label:hover::after{
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      transition: all 0.35s;
+    }
+    .hide label{
+      display: none;
+    }
+    .show label{
+      display: inline-block;
+    }
+    .weekCl{
+      display: none;
+    }
+    .weekCl li{
+      /*background: #A257F2;*/
+      background: #B5761D;
+    }
+    @media(min-width: 37rem){
+      li{
+        width: 33.33%;
+        display: inline-block;
+        border-right: 0.35em solid rgba(0,0,0,0.2);
+      }
+    }
+    @media(min-width: 85rem){
+      li{
+        width: 14.28%;
+        display: inline-block;
+      }
+      .weekCl{
+        display: block;
+      }
+    }
+    ul li .hideLabel{
+      opacity: 0;
+    }
+    /*
+    ===================================================
+                          NAVBAR
+    ===================================================
+    */
+a {
+  text-decoration: none;
+}
+ul.months{
+  margin: 0;
+  padding: 0;
+  display: flex;  
+  /*justify-content: center;*/
+  font-size: 1.2em;
+}
+.months .menu_item{
+  height: 3em;
+  line-height: 3em;
+}
+.months a{
+  position: relative;
+  display: block;
+  height: 100%;
+  background: #3498db;
+  color: #fff;
+  border-right: 0.25em solid #fff;
+  padding-right: 2em;
+}
+.months .menu_item:last-of-type a{
+  border-right: 0;
+}
+.months .menu_item .fa {
+  background: #2980b9;
+  height: 100%;
+  line-height: inherit;
+  width: 3em;
+  text-align: center;
+  transition: all 0.35s;
+  display: block;
+  position: absolute;
+  left: 0;
+}
+.months a span{
+  display: block;
+  margin-left: 4.5em;
+}
+.months a{
+  z-index: 1;
+  overflow: hidden;
+}
+.months a::after{
+  content: '';
+  background: #2980b9;
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+  left: -100%;
+  right: 100%;
+  transition: all 0.35s;
+}
+@media(min-width: 55rem){
+  .months a:hover::after{
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    transition: all 0.35s;
+  }
+  .months a:hover .fa{
+    font-size: 1.25em;
+    width: 3.6em;
+    transition: all 0.35s;
+  }
+}
+@media (max-width: 55rem){
+  .months a span{
+    margin-left: 1em;
+    width: 0;
+    transition: margin-left 0.5s ease;
+  }
+  .months a:hover span{
+    margin-left: 4.5em;
+    width: auto;
+    transition: margin-left 0.5s ease;
+  }
+}
+.open_menu{
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+.burger{
+  display: none;
+  font-size: 1.2em;
+  position: relative;
+  background: #3498db;
+  color: #fff;
+  width: 3em;
+  height: 3em;
+  overflow: hidden;
+  text-align: center;
+  margin-bottom: 0.25em;
+  cursor: pointer;
+  transition: background 0.35s;
+}
+.burger .fa{
+  pointer-events: none;
+  display: block;
+  width: 3em;
+  height: 3em;
+  line-height: 3em;
+}
+@media(max-width: 30rem){
+  .burger{
+    display: block;
+  }
+  .months{
+    position: absolute;
+    z-index: 99;
+    width: 100%;
+    flex-direction: column;
+    right: 100%;
+    transition: all 0.35s;
+  }
+  .open_menu:checked + .burger + .months{
+    right: 0;
+    transition: all 0.35s;
+  }
+  .open_menu:checked + .burger{
+    background: #2980b9;
+    transition: background 0.35s;
+  }
+  .months div{
+    border-bottom: 0.25em solid #fff;
+  }
+  .months a{
+    border-right: 0;
+  }
+  .months a span{
+    margin-left: 4.5em;
+    width: auto;
+    transition: margin-left 0.5s ease;
+  }
+  .months a:hover::after{
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    transition: all 0.35s;
+  }
+  .months a:hover .fa{
+    font-size: 1.25em;
+    width: 3.6em;
+    transition: all 0.35s;
+  }
+}
+    </style>
+  </head>
+  <body>
+    <div id='root'>
+    </div>
+  </body>
+  <script src="dist/bundle.js"></script>
+</html>
